@@ -2082,16 +2082,17 @@ const clientParams = {
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            safeExec('/usr/bin/git fetch --no-tags --depth=1000 origin master');
+            safeExec(`/usr/bin/git fetch --no-tags --depth=1000 origin ${branchNameBase}`);
             safeExec(`/usr/bin/git fetch origin ${branchNameHead}`);
             safeExec(`/usr/bin/git checkout ${branchNameHead}`);
-            const commandToRunOnHead = `npx jest --ci --runInBand --coverage --changedSince=master --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary"`;
+            const commandToRunOnHead = `npx jest --ci --runInBand --coverage --changedSince=${branchNameBase} --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary"`;
             safeExec(`/usr/bin/git branch --show-current`);
             console.log(commandToRunOnHead);
             safeExec(commandToRunOnHead);
             const codeCoverageNew = (JSON.parse(fs_1.default.readFileSync('coverage-summary.json').toString()));
             console.log('codeCoverageNew', codeCoverageNew);
             const relatedTests = Object.keys(codeCoverageNew).join(' ');
+            safeExec(`/usr/bin/git stash`);
             safeExec(`/usr/bin/git checkout ${branchNameBase}`);
             const commandToRunOnBase = `npx jest --ci --runInBand --coverage --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary" --findRelatedTests ${relatedTests}`;
             console.log(commandToRunOnBase);
