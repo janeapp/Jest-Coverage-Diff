@@ -86,9 +86,9 @@ const clientParams = {
 
 async function run(): Promise<void> {
   try {
-    safeExec('/usr/bin/git fetch --no-tags --depth=1000 origin master')
-    safeExec(`/usr/bin/git checkout -b ${branchNameBase}`)
-    safeExec(`/usr/bin/git fetch origin ${branchNameHead}`)
+    // safeExec('/usr/bin/git fetch --no-tags --depth=1000 origin master')
+    safeExec(`/usr/bin/git checkout ${branchNameBase}`)
+    // safeExec(`/usr/bin/git fetch origin ${branchNameHead}`)
     safeExec(`/usr/bin/git checkout ${branchNameHead}`)
 
     const commandToRunOnHead = `npx jest --ci --runInBand --coverage --changedSince=master --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary"`
