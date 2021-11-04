@@ -2082,7 +2082,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             safeExec('/usr/bin/git fetch');
-            // safeExec(`/usr/bin/git checkout ${branchNameHead}`)
+            safeExec(`/usr/bin/git checkout ${branchNameHead}`);
             const commandToRunOnHead = `npx jest --ci --runInBand --coverage --changedSince=master --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary"`;
             safeExec(`/usr/bin/git branch --show-current`);
             console.log(commandToRunOnHead);
