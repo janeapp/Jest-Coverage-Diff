@@ -2024,7 +2024,8 @@ const child_process_1 = __webpack_require__(129);
 const fs_1 = __importDefault(__webpack_require__(747));
 const DiffChecker_1 = __webpack_require__(563);
 const safeExec = (cmd) => {
-    child_process_1.execSync(cmd);
+    // If you want more detailed error logging remove { stdio: 'ignore' }
+    child_process_1.execSync(cmd, { stdio: 'ignore' });
 };
 const getComment = (diffChecker) => {
     const currentDirectory = child_process_1.execSync('pwd')
@@ -2081,8 +2082,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             safeExec('/usr/bin/git fetch');
-            safeExec(`/usr/bin/git checkout ${branchNameBase}`);
-            safeExec(`/usr/bin/git checkout ${branchNameHead}`);
+            // safeExec(`/usr/bin/git checkout ${branchNameHead}`)
             const commandToRunOnHead = `npx jest --ci --runInBand --coverage --changedSince=master --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary"`;
             safeExec(`/usr/bin/git branch --show-current`);
             console.log(commandToRunOnHead);
@@ -2090,6 +2090,8 @@ function run() {
             const codeCoverageNew = (JSON.parse(fs_1.default.readFileSync('coverage-summary.json').toString()));
             console.log('codeCoverageNew', codeCoverageNew);
             const relatedTests = Object.keys(codeCoverageNew).join(' ');
+            safeExec(`/usr/bin/git stash`);
+            safeExec(`/usr/bin/git checkout ${branchNameBase}`);
             const commandToRunOnBase = `npx jest --ci --runInBand --coverage --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary" --findRelatedTests ${relatedTests}`;
             console.log(commandToRunOnBase);
             safeExec(commandToRunOnBase);
