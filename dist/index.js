@@ -2080,7 +2080,7 @@ const clientParams = {
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            safeExec('/usr/bin/git fetch --no-tags --depth=1 origin master');
+            safeExec('/usr/bin/git fetch --no-tags origin master');
             safeExec(`/usr/bin/git checkout -b ${branchNameBase}`);
             safeExec(`/usr/bin/git fetch origin ${branchNameHead}`);
             safeExec(`/usr/bin/git checkout ${branchNameHead}`);
