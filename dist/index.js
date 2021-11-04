@@ -2025,7 +2025,8 @@ const fs_1 = __importDefault(__webpack_require__(747));
 const DiffChecker_1 = __webpack_require__(563);
 const safeExec = (cmd) => {
     // If you want more detailed error logging remove { stdio: 'ignore' }
-    child_process_1.execSync(cmd, { stdio: 'ignore' });
+    // execSync(cmd, {stdio: 'ignore'})
+    child_process_1.execSync(cmd);
 };
 const getComment = (diffChecker) => {
     const currentDirectory = child_process_1.execSync('pwd')
