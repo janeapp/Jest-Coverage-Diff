@@ -88,7 +88,7 @@ async function run(): Promise<void> {
   try {
     safeExec('/usr/bin/git fetch --no-tags --depth=1 origin master')
     safeExec(`/usr/bin/git checkout -b ${branchNameBase}`)
-    safeExec(`/usr/bin/git checkout ${branchNameHead}`)
+    safeExec(`/usr/bin/git checkout -`)
 
     const commandToRunOnHead = `npx jest --ci --runInBand --coverage --changedSince=master --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary"`
     console.log(`Current branch: ${branchNameHead}.`)
