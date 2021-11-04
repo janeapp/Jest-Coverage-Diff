@@ -86,7 +86,7 @@ const clientParams = {
 
 async function run(): Promise<void> {
   try {
-    safeExec('/usr/bin/git fetch --no-tags origin master')
+    safeExec('/usr/bin/git fetch --no-tags --depth=0 origin master')
     safeExec(`/usr/bin/git checkout -b ${branchNameBase}`)
     safeExec(`/usr/bin/git fetch origin ${branchNameHead}`)
     safeExec(`/usr/bin/git checkout ${branchNameHead}`)
@@ -100,6 +100,7 @@ async function run(): Promise<void> {
       JSON.parse(fs.readFileSync('coverage-summary.json').toString())
     )
 
+    console.log('codeCoverageNew', codeCoverageNew)
     const relatedTests = Object.keys(codeCoverageNew).join(' ')
 
     const commandToRunOnBase = `npx jest --ci --runInBand --coverage --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary" --findRelatedTests ${relatedTests}`
