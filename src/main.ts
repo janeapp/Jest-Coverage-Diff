@@ -71,8 +71,8 @@ const repoName = github.context.repo.repo
 const repoOwner = github.context.repo.owner
 const githubToken = core.getInput('accessToken')
 const fullCoverage = JSON.parse(core.getInput('fullCoverageDiff'))
-const commandToRun = core.getInput('runCommand')
-const commandAfterSwitch = core.getInput('afterSwitchCommand')
+// const commandToRun = core.getInput('runCommand')
+// const commandAfterSwitch = core.getInput('afterSwitchCommand')
 const delta = Number(core.getInput('delta'))
 const githubClient = github.getOctokit(githubToken)
 const prNumber = github.context.issue.number
@@ -87,29 +87,24 @@ const clientParams = {
 
 async function run(): Promise<void> {
   try {
+    safeExec('/usr/bin/git fetch --no-tags --depth=1 origin master')
+    safeExec(`/usr/bin/git checkout ${branchNameBase}`)
+    safeExec(`/usr/bin/git checkout -b ${branchNameHead}`)
+
+    const commandToRunOnHead = `npx jest --ci --runInBand --coverage --changedSince=master --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary"`
     console.log(`Current branch: ${branchNameHead}.`)
-    console.log(commandToRun)
-    safeExec(commandToRun)
+    console.log(commandToRunOnHead)
+    safeExec(commandToRunOnHead)
 
     const codeCoverageNew = <CoverageReport>(
       JSON.parse(fs.readFileSync('coverage-summary.json').toString())
     )
 
-    console.log('Fetching...')
-    safeExec('/usr/bin/git fetch')
+    const relatedTests = Object.keys(codeCoverageNew).join(' ')
 
-    console.log('Stashing...')
-    safeExec('/usr/bin/git stash')
-
-    console.log(`Checking out ${branchNameBase}.`)
-    safeExec(`/usr/bin/git checkout --progress --force ${branchNameBase}`)
-
-    if (commandAfterSwitch) {
-      safeExec(commandAfterSwitch)
-    }
-
-    console.log(commandToRun)
-    safeExec(commandToRun)
+    const commandToRunOnBase = `npx jest --ci --runInBand --coverage --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary" --findRelatedTests ${relatedTests}`
+    console.log(commandToRunOnBase)
+    safeExec(commandToRunOnBase)
 
     const codeCoverageOld = <CoverageReport>(
       JSON.parse(fs.readFileSync('coverage-summary.json').toString())
