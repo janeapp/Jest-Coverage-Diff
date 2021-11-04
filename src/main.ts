@@ -8,7 +8,6 @@ import {DiffChecker} from './DiffChecker'
 
 const safeExec = (cmd: string): void => {
   execSync(cmd)
-  // exec(cmd, err => console.log(err))
 }
 
 const getComment = (diffChecker: DiffChecker): string => {
@@ -28,9 +27,6 @@ Current PR reduces the test coverage percentage \n\n`
       'Status | File | % Stmts | % Branch | % Funcs | % Lines \n -----|-----|---------|----------|---------|------ \n'
     messageToPost += coverageDetails.join('\n')
   }
-  console.log(`Message to post:`)
-  console.log(messageToPost)
-  console.log(`End of message to post:`)
   return messageToPost
 }
 
@@ -55,6 +51,9 @@ const notifyCoverageUp = async (): Promise<void> => {
 
 const notifyCoverageDown = async (comment: string): Promise<void> => {
   console.log('Creating comment and adding label.')
+  console.log(`Message to post:`)
+  console.log(comment)
+  console.log(`End of message to post`)
 
   await githubClient.issues.createComment({
     ...clientParams,
@@ -88,8 +87,8 @@ const clientParams = {
 async function run(): Promise<void> {
   try {
     safeExec('/usr/bin/git fetch --no-tags --depth=1 origin master')
-    safeExec(`/usr/bin/git checkout ${branchNameBase}`)
-    safeExec(`/usr/bin/git checkout -b ${branchNameHead}`)
+    safeExec(`/usr/bin/git checkout -b ${branchNameBase}`)
+    safeExec(`/usr/bin/git checkout ${branchNameHead}`)
 
     const commandToRunOnHead = `npx jest --ci --runInBand --coverage --changedSince=master --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary"`
     console.log(`Current branch: ${branchNameHead}.`)

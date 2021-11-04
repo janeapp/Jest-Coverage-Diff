@@ -2025,7 +2025,6 @@ const fs_1 = __importDefault(__webpack_require__(747));
 const DiffChecker_1 = __webpack_require__(563);
 const safeExec = (cmd) => {
     child_process_1.execSync(cmd);
-    // exec(cmd, err => console.log(err))
 };
 const getComment = (diffChecker) => {
     const currentDirectory = child_process_1.execSync('pwd')
@@ -2040,9 +2039,6 @@ Current PR reduces the test coverage percentage \n\n`;
             'Status | File | % Stmts | % Branch | % Funcs | % Lines \n -----|-----|---------|----------|---------|------ \n';
         messageToPost += coverageDetails.join('\n');
     }
-    console.log(`Message to post:`);
-    console.log(messageToPost);
-    console.log(`End of message to post:`);
     return messageToPost;
 };
 const checkHasLabel = () => __awaiter(void 0, void 0, void 0, function* () {
@@ -2057,6 +2053,9 @@ const notifyCoverageUp = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 const notifyCoverageDown = (comment) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Creating comment and adding label.');
+    console.log(`Message to post:`);
+    console.log(comment);
+    console.log(`End of message to post`);
     yield githubClient.issues.createComment(Object.assign(Object.assign({}, clientParams), { body: comment }));
     yield githubClient.issues.addLabels(Object.assign(Object.assign({}, clientParams), { labels: [coverageLabel] }));
 });
@@ -2082,8 +2081,8 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             safeExec('/usr/bin/git fetch --no-tags --depth=1 origin master');
-            safeExec(`/usr/bin/git checkout ${branchNameBase}`);
-            safeExec(`/usr/bin/git checkout -b ${branchNameHead}`);
+            safeExec(`/usr/bin/git checkout -b ${branchNameBase}`);
+            safeExec(`/usr/bin/git checkout ${branchNameHead}`);
             const commandToRunOnHead = `npx jest --ci --runInBand --coverage --changedSince=master --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary"`;
             console.log(`Current branch: ${branchNameHead}.`);
             console.log(commandToRunOnHead);
