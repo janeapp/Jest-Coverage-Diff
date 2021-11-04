@@ -1,13 +1,14 @@
 /* eslint-disable no-console */
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import {execSync} from 'child_process'
+import {exec, execSync} from 'child_process'
 import fs from 'fs'
 import {CoverageReport} from './Model/CoverageReport'
 import {DiffChecker} from './DiffChecker'
 
 const safeExec = (cmd: string): void => {
-  execSync(cmd, {stdio: 'ignore'})
+  execSync(cmd)
+  // exec(cmd, err => console.log(err))
 }
 
 const getComment = (diffChecker: DiffChecker): string => {

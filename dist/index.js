@@ -2024,7 +2024,8 @@ const child_process_1 = __webpack_require__(129);
 const fs_1 = __importDefault(__webpack_require__(747));
 const DiffChecker_1 = __webpack_require__(563);
 const safeExec = (cmd) => {
-    child_process_1.execSync(cmd, { stdio: 'ignore' });
+    child_process_1.execSync(cmd);
+    // exec(cmd, err => console.log(err))
 };
 const getComment = (diffChecker) => {
     const currentDirectory = child_process_1.execSync('pwd')
@@ -2119,8 +2120,8 @@ function run() {
             }
         }
         catch (error) {
-          console.log('ERROR', error)
-          core.setFailed(error);
+            console.log('ERROR', error);
+            core.setFailed(error);
         }
     });
 }
