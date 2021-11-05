@@ -8,7 +8,7 @@ import {DiffChecker} from './DiffChecker'
 
 const safeExec = (cmd: string): void => {
   // Remove { stdio: 'ignore' } if you want more detailed debugging
-  execSync(cmd, {stdio: 'ignore'})
+  execSync(cmd)
 }
 
 const getComment = (diffChecker: DiffChecker): string => {
