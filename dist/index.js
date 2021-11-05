@@ -2079,7 +2079,7 @@ const clientParams = {
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            safeExec(`/usr/bin/git fetch origin ${branchNameBase}`);
+            safeExec(`/usr/bin/git fetch`);
             safeExec(`/usr/bin/git checkout ${branchNameBase}`);
             safeExec(`/usr/bin/git fetch origin ${branchNameHead}`);
             safeExec(`/usr/bin/git checkout ${branchNameHead}`);
@@ -2090,7 +2090,7 @@ function run() {
             const codeCoverageNew = (JSON.parse(fs_1.default.readFileSync('coverage-summary.json').toString()));
             console.log('codeCoverageNew', codeCoverageNew);
             const relatedTests = Object.keys(codeCoverageNew).join(' ');
-            safeExec(`/usr/bin/git fetch origin ${branchNameBase}`);
+            safeExec(`/usr/bin/git fetch`);
             safeExec(`/usr/bin/git checkout ${branchNameBase}`);
             const commandToRunOnBase = `npx jest --ci --runInBand --coverage --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary" --findRelatedTests ${relatedTests}`;
             console.log(commandToRunOnBase);
