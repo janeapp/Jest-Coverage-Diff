@@ -85,9 +85,7 @@ const clientParams = {
 
 async function run(): Promise<void> {
   try {
-    safeExec(
-      `/usr/bin/git fetch --no-tags --depth=1000 origin ${branchNameBase}`
-    )
+    safeExec(`/usr/bin/git fetch origin ${branchNameBase}`)
     safeExec(`/usr/bin/git checkout ${branchNameBase}`)
     safeExec(`/usr/bin/git fetch origin ${branchNameHead}`)
     safeExec(`/usr/bin/git checkout ${branchNameHead}`)
@@ -103,9 +101,7 @@ async function run(): Promise<void> {
     console.log('codeCoverageNew', codeCoverageNew)
     const relatedTests = Object.keys(codeCoverageNew).join(' ')
 
-    safeExec(
-      `/usr/bin/git fetch --no-tags --depth=1000 origin ${branchNameBase}`
-    )
+    safeExec(`/usr/bin/git fetch origin ${branchNameBase}`)
     safeExec(`/usr/bin/git checkout ${branchNameBase}`)
 
     const commandToRunOnBase = `npx jest --ci --runInBand --coverage --collectCoverage=true --coverageDirectory='./' --coverageReporters="json-summary" --findRelatedTests ${relatedTests}`
