@@ -85,6 +85,11 @@ const clientParams = {
 
 async function run(): Promise<void> {
   try {
+    console.debug({
+      branchNameBase,
+      branchNameHead,
+      PR: github.context.payload.pull_request
+    })
     safeExec(`/usr/bin/git fetch`)
     safeExec(`/usr/bin/git checkout ${branchNameBase}`)
     safeExec(`/usr/bin/git checkout ${branchNameHead}`)
