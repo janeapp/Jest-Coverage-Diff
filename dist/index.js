@@ -2079,6 +2079,11 @@ const clientParams = {
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            console.log({
+                branchNameBase,
+                branchNameHead,
+                PR: github.context.payload.pull_request
+            });
             safeExec(`/usr/bin/git fetch`);
             safeExec(`/usr/bin/git checkout ${branchNameBase}`);
             safeExec(`/usr/bin/git checkout ${branchNameHead}`);
