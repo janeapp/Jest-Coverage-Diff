@@ -1,19 +1,23 @@
-name: 'Jest Coverage Diff'
-description: 'A github action to comment jest coverage diff on a PR'
-author: 'Anuraag Puri'
+name: "Jest Coverage Diff"
+description: "A github action to comment jest coverage diff on a PR"
+author: "Anuraag Puri"
 inputs:
+  branchNameBase:
+    description: "The base branch for the current PR"
+  branchNameHead:
+    description: "The head branch for the current PR"
   accessToken:
-    description: 'access token required to comment on a pr'
+    description: "access token required to comment on a pr"
     default: ${{ github.token }}
   fullCoverageDiff:
-    description: 'get the full coverage with diff or only the diff'
+    description: "get the full coverage with diff or only the diff"
     default: false
   delta:
-    description: 'Difference between the old and final test coverage'
+    description: "Difference between the old and final test coverage"
     default: 0
 branding:
   color: red
   icon: git-pull-request
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "dist/index.js"
