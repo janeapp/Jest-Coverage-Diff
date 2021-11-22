@@ -2068,8 +2068,8 @@ const fullCoverage = JSON.parse(core.getInput('fullCoverageDiff'));
 const delta = Number(core.getInput('delta'));
 const githubClient = github.getOctokit(githubToken);
 const prNumber = github.context.issue.number;
-const branchNameBase = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.base.ref;
-const branchNameHead = (_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.head.ref;
+const branchNameBase = core.getInput('branchNameBase') || ((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.base.ref);
+const branchNameHead = core.getInput('branchNameHead') || ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.head.ref);
 const clientParams = {
     repo: repoName,
     owner: repoOwner,
