@@ -2015,7 +2015,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable no-console */
 const core = __importStar(__webpack_require__(470));
@@ -2068,8 +2067,10 @@ const fullCoverage = JSON.parse(core.getInput('fullCoverageDiff'));
 const delta = Number(core.getInput('delta'));
 const githubClient = github.getOctokit(githubToken);
 const prNumber = github.context.issue.number;
-const branchNameBase = core.getInput('branchNameBase') || ((_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.base.ref);
-const branchNameHead = core.getInput('branchNameHead') || ((_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.head.ref);
+const branchNameBase = core.getInput('branchNameBase'); // ||
+// github.context.payload.pull_request?.base.ref
+const branchNameHead = core.getInput('branchNameHead'); //||
+// github.context.payload.pull_request?.head.ref
 const clientParams = {
     repo: repoName,
     owner: repoOwner,
