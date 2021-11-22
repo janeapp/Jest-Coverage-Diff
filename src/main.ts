@@ -85,7 +85,7 @@ const clientParams = {
 
 async function run(): Promise<void> {
   try {
-    console.debug({
+    console.log({
       branchNameBase,
       branchNameHead,
       PR: github.context.payload.pull_request
