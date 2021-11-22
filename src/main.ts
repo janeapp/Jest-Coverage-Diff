@@ -74,10 +74,12 @@ const fullCoverage = JSON.parse(core.getInput('fullCoverageDiff'))
 const delta = Number(core.getInput('delta'))
 const githubClient = github.getOctokit(githubToken)
 const prNumber = github.context.issue.number
-const branchNameBase = core.getInput('branchNameBase') // ||
-// github.context.payload.pull_request?.base.ref
-const branchNameHead = core.getInput('branchNameHead') //||
-// github.context.payload.pull_request?.head.ref
+const branchNameBase =
+  core.getInput('branchNameBase') ||
+  github.context.payload.pull_request?.base.ref
+const branchNameHead =
+  core.getInput('branchNameHead') ||
+  github.context.payload.pull_request?.head.ref
 const clientParams = {
   repo: repoName,
   owner: repoOwner,
@@ -87,6 +89,14 @@ const clientParams = {
 
 async function run(): Promise<void> {
   try {
+    console.log(
+      "core.getInput('branchNameBase')",
+      core.getInput('branchNameBase')
+    )
+    console.log(
+      "core.getInput('branchNameHead')",
+      core.getInput('branchNameHead')
+    )
     console.log({
       branchNameBase,
       branchNameHead,
